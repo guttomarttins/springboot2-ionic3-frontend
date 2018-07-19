@@ -1,8 +1,8 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
-import { StorageService } from "../services/storage.service";
-import { AlertController } from "ionic-angular/umd/components/alert/alert-controller";
+import { StorageService } from "../services/storage.service"; 
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor{
@@ -64,7 +64,7 @@ export class ErrorInterceptor implements HttpInterceptor{
 
     handleDefaultError(errorObj){
         let alert = this.alertCtrl.create({
-            title: 'Erro ' + errorObj.stats + ': ' + errorObj.error,
+            title: 'Erro ' + errorObj.status + ': ' + errorObj.error,
             message: errorObj.message,
             enableBackdropDismiss: false,
             buttons: [
@@ -73,7 +73,7 @@ export class ErrorInterceptor implements HttpInterceptor{
                 }
             ]
         });
-        alert.present();
+        alert.present();  
     }
 }
 
