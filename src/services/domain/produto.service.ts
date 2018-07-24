@@ -13,4 +13,9 @@ export class ProdutoService{
     findByCategoria(categoria_id : String){
         return this.http.get<EstadoDTO[]>(`${API_CONFIG.baseUrl}/produtos/?categorias=${categoria_id}`);
     }
+
+    getSmallImageFromBucket(id : String) : Observable<any>{
+        let url = `${API_CONFIG.bucketBaseUrl}/prod${id}-small.jpg`;
+        return this.http.get(url, {responseType : 'blob'});
+    }
 }
