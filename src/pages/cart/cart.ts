@@ -39,24 +39,23 @@ export class CartPage {
     }
   }  
 
-  removeItem(produto: ProdutoDTO){
+  removeItem(produto: ProdutoDTO) {
     this.items = this.cartService.removeProduto(produto).items;
   }
 
-  increaseQuantity(produto: ProdutoDTO){
+  increaseQuantity(produto: ProdutoDTO) {
     this.items = this.cartService.increaseQuantity(produto).items;
   }
 
-  decreaseQuantity(produto: ProdutoDTO){
+  decreaseQuantity(produto: ProdutoDTO) {
     this.items = this.cartService.decreaseQuantity(produto).items;
   }
 
-  total() : number{
+  total() : number {
     return this.cartService.total();
-  }
+  }  
 
-  goOn(){
+  goOn() {
     this.navCtrl.setRoot('CategoriasPage');
   }
-
 }
