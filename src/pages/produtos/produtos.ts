@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProdutoDTO } from '../../models/produto.dto';
 import { ProdutoService } from '../../services/domain/produto.service';
 import { API_CONFIG } from '../../config/api.config';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 
 @IonicPage()
 @Component({
@@ -16,17 +17,22 @@ export class ProdutosPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public produtoService: ProdutoService) {
+    public produtoService: ProdutoService, 
+    public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
     let categoria_id = this.navParams.get('categoria_id');
+    let loader = this.presentLoading();
     this.produtoService.findByCategoria(categoria_id)
       .subscribe(response =>{
          this.items = response['content'];
+         loader.dismiss();
          this.loadImageUrls();
-      }),
-      error => {}; 
+      },
+      error => {
+        loader.dismiss();
+      }); 
   }
 
   loadImageUrls() {
@@ -35,14 +41,21 @@ export class ProdutosPage {
        this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
           item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
-    },
-    error => {});
-    }
+        },
+        error => {});
+        }
   }
 
   showDetail(produto_id : string) {
-    console.log('produto selecionado: ' + produto_id);
     this.navCtrl.push('ProdutoDetailPage', {produto_id: produto_id});
+  }
+
+  presentLoading() {
+    const loader = this.loadingCtrl.create({
+      content: "Aguarde..."
+    });
+    loader.present();
+    return loader;
   }
 
 }
